@@ -84,15 +84,15 @@ function parseLinkDestinationLabel(src, pos, max) {
 // follow spec from
 // <https://www.w3.org/TR/xml/#sec-common-syn> (xml attr name)
 // reason of not adapting non-ASCII characters are same as DIRECTIVE_NAME_RE's
-const ATTR_NAME_RE = /^[a-z][a-z0-9\-_]*/;
+const ATTR_NAME_RE = /\"(.*?)\"/
 
 function parseAttrName(src, pos, max) {
   // will return null when pos >= max
-  const oldPos = pos;
-  const rst = src.slice(pos, max).match(ATTR_NAME_RE);
-  if (rst === null) return null;
-  pos += rst[0].length;
-  return { pos, name: src.slice(oldPos, pos) };
+  const oldPos = pos
+  const rst = src.slice(pos, max).match(ATTR_NAME_RE)
+  if (rst === null) return null
+  pos += rst[0].length
+  return { pos, name: src.slice(oldPos, pos).slice(1, -1) }
 }
 
 // base64 as minimum allowed chars
